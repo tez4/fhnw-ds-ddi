@@ -1,3 +1,4 @@
+import math
 import regex as re
 import pandas as pd
 import random
@@ -70,7 +71,7 @@ def create_data(post_number):
             comment_author_email = fake.email()
             comment_date = fake.date_time_this_decade()
             comment_text = fake.text(random.randint(5,50))
-            comment_likes = random.randint(0,5000)
+            comment_likes = math.ceil(random.randint(0,5000) / (k + 1))
 
             j += 1
 
