@@ -57,6 +57,40 @@ def create_database(post_number):
             );''')
     cur.copy_from(buffer, 'public.posts', sep=",")
 
+
+    buffer = StringIO()
+    df_comments.to_csv(buffer, header=False, index = False)
+    buffer.seek(0)
+
+    cur.execute("DROP TABLE IF EXISTS public.comments;")
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS public.comments 
+            (
+                comment_id "numeric",
+                post_id "numeric",
+                comment_author "varchar",
+                comment_author_email "varchar",
+                comment_date "timestamp",
+                comment_text "varchar",
+                comment_likes "numeric"
+            );''')
+    cur.copy_from(buffer, 'public.comments', sep=",")
+    
+    
+    buffer = StringIO()
+    df_tags.to_csv(buffer, header=False, index = False)
+    buffer.seek(0)
+
+    cur.execute("DROP TABLE IF EXISTS public.tags;")
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS public.tags 
+            (
+                tag_id "numeric",
+                post_id "numeric",
+                tag "varchar"
+            );''')
+    cur.copy_from(buffer, 'public.tags', sep=",")
+
     # commit changes to database and close communication with the database
     conn.commit()
     cur.close()
