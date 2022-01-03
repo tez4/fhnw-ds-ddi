@@ -100,7 +100,6 @@ def create_data(post_number):
         # create the post json
         if len(tags) == 0 and len(comments) == 0:
             post_documents.append({
-                'id': post_id,
                 'title': post_title,
                 'description': post_description,
                 'url': post_url,
@@ -111,7 +110,6 @@ def create_data(post_number):
             })
         elif len(comments) == 0:
             post_documents.append({
-                'id': post_id,
                 'title': post_title,
                 'description': post_description,
                 'url': post_url,
@@ -123,7 +121,6 @@ def create_data(post_number):
             })
         elif len(tags) == 0:
             post_documents.append({
-                'id': post_id,
                 'title': post_title,
                 'description': post_description,
                 'url': post_url,
@@ -135,7 +132,6 @@ def create_data(post_number):
             })
         else:
             post_documents.append({
-                'id': post_id,
                 'title': post_title,
                 'description': post_description,
                 'url': post_url,
@@ -162,5 +158,3 @@ def create_data(post_number):
         )
     
     return (df_posts, df_tags, df_comments, post_documents)
-
-df_posts, df_tags, df_comments, post_documents = create_data(100)
