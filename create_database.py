@@ -108,5 +108,3 @@ def create_database(post_number):
         print('Not Present')
 
     blogposts.insert_many(post_documents)
-
-create_database(100)
