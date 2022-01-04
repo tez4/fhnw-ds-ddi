@@ -1,14 +1,6 @@
 from create_database import *
 import timeit
 
-df_time = pd.DataFrame(columns=[
-        'posts',
-        'language',
-        'query',
-        'time'
-    ])
-create_database(100)
-
 # mongodb queries -------------------------------------------------------------------------------------------------------------------
 
 def get_mongodb_time(type_of_query, query, query_name, df_time, num_of_posts):
@@ -45,8 +37,6 @@ def get_mongodb_time(type_of_query, query, query_name, df_time, num_of_posts):
     #     print(doc)
     #     print("{title}: {url}".format(**doc))
 
-cursor, df_time = get_mongodb_time('find',{'post_id' : 42}, 'one blogpost', df_time, 100)
-
 
 # SQL queries -----------------------------------------------------------------------------------------------------------------------
 
@@ -58,14 +48,14 @@ def create_df(cur):
     return df_results
 
 
-def get_sql_time(query, query_name, df_time, num_of_posts):
+def get_sql_time(query, query_params, query_name, df_time, num_of_posts):
     # connect to database
     conn = psycopg2.connect(dbname='blog', host='localhost', user='postgres', password='postgres')
     cursor = conn.cursor()
 
     # create database
     starttime = timeit.default_timer()
-    cursor.execute(query)
+    cursor.execute(query, query_params)
     time = timeit.default_timer() - starttime
 
     # append time measurement to dataframe
@@ -86,20 +76,41 @@ def get_sql_time(query, query_name, df_time, num_of_posts):
 
     return (cursor, df_time)
 
+# general logic -----------------------------------------------------------------------------------------------------------------------
 
-cursor, df_time = get_sql_time(
-    """
-    SELECT *
-    FROM public.posts p
-    LEFT JOIN public.comments c
-    ON (p.post_id = c.post_id)
-    LEFT JOIN public.tags t
-    ON (p.post_id = t.post_id)
-    WHERE p.post_id = 42
-    """,
-    'one blogpost',
-    df_time,
-    100
-)
+df_time = pd.DataFrame(columns=[
+        'posts',
+        'language',
+        'query',
+        'time'
+    ])
+
+kk = [100,200,400,800,1600,3200,6400,12500,25000,50000,100000]
+
+for post_number in [100,200]:
+    create_database(post_number)
+
+    random_post_ids = [random.randint(0,post_number) for i in range(5)]
+
+    for random_post_id in random_post_ids:
+        cursor, df_time = get_sql_time(
+            """
+            SELECT *
+            FROM public.posts p
+            LEFT JOIN public.comments c
+            ON (p.post_id = c.post_id)
+            LEFT JOIN public.tags t
+            ON (p.post_id = t.post_id)
+            WHERE p.post_id = %s
+            """,
+            (random_post_id,),
+            'one blogpost',
+            df_time,
+            post_number
+        )
+
+        cursor, df_time = get_mongodb_time('find',{'post_id' : random_post_id}, 'one blogpost', df_time, post_number)
+
+df_time.to_csv('time.csv', index=False)
 
 print(df_time)
