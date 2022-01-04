@@ -22,7 +22,7 @@ def get_mongodb_time(type_of_query, query, query_name, df_time, num_of_posts):
     # append time measurement to dataframe
     df_time = df_time.append({
                 'posts': num_of_posts,
-                'language': 'mongodb',
+                'language': 'MongoDB',
                 'query': query_name,
                 'time': time
             },
@@ -61,20 +61,35 @@ def get_sql_time(query, query_params, query_name, df_time, num_of_posts):
     # append time measurement to dataframe
     df_time = df_time.append({
                 'posts': num_of_posts,
-                'language': 'sql',
+                'language': 'SQL',
                 'query': query_name,
                 'time': time
             },
             ignore_index=True
         )
 
-    # df_results = create_df(cursor)
+    df_results = create_df(cursor)
 
     # close communication with the database
     cursor.close()
     conn.close()
 
-    return (cursor, df_time)
+    return (df_results, df_time)
+
+def run_sql_query(query):
+    # connect to database
+    conn = psycopg2.connect(dbname='blog', host='localhost', user='postgres', password='postgres')
+    cursor = conn.cursor()
+
+    # create database
+    cursor.execute(query)
+    df_results = create_df(cursor)
+
+    # close communication with the database
+    cursor.close()
+    conn.close()
+
+    return (df_results)
 
 # general logic -----------------------------------------------------------------------------------------------------------------------
 
@@ -92,8 +107,9 @@ for post_number in [100,200,400,800,1600,3200]:
 
     random_post_ids = [random.randint(0,post_number) for i in range(5)]
 
+    # query one blogpost
     for random_post_id in random_post_ids:
-        cursor, df_time = get_sql_time(
+        df_results, df_time = get_sql_time(
             """
             SELECT *
             FROM public.posts p
@@ -110,6 +126,35 @@ for post_number in [100,200,400,800,1600,3200]:
         )
 
         cursor, df_time = get_mongodb_time('find',{'post_id' : random_post_id}, 'one blogpost', df_time, post_number)
+
+    # query all blogposts of often used tag
+    df_tags = run_sql_query(
+        """
+        SELECT COUNT(tag_id) count, tag
+        FROM public.tags
+        GROUP BY tag
+        ORDER BY count DESC, tag
+        LIMIT 5
+        """)
+    
+    for tag in [tag for tag in df_tags['tag']]:
+        
+        df_results, df_time = get_sql_time(
+            """
+            SELECT *
+            FROM public.tags t
+            LEFT JOIN public.posts p
+            ON (t.post_id = p.post_id)
+            WHERE tag = %s
+            """,
+            (tag,),
+            'by tag',
+            df_time,
+            post_number
+        )
+
+        cursor, df_time = get_mongodb_time('find',{'tags': {'$all': [tag]}}, 'by tag', df_time, post_number)
+        
 
 df_time.to_csv('time.csv', index=False)
 
