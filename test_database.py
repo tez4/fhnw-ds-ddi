@@ -154,7 +154,34 @@ for post_number in [100,200,400,800,1600,3200]:
         )
 
         cursor, df_time = get_mongodb_time('find',{'tags': {'$all': [tag]}}, 'by tag', df_time, post_number)
-        
+    
+    # query all comments of a certain user
+    df_comments = run_sql_query(
+        """
+        SELECT COUNT(comment_id) count, comment_author
+        FROM public.comments
+        GROUP BY comment_author
+        ORDER BY count DESC, comment_author
+        LIMIT 5
+        """)
+    
+    for author in [author for author in df_comments['comment_author']]: 
+        print(author)
+
+        df_results, df_time = get_sql_time(
+            """
+            SELECT *
+            FROM public.comments c
+            WHERE comment_author = %s
+            """,
+            (author,),
+            'by comment author',
+            df_time,
+            post_number
+        )
+
+        cursor, df_time = get_mongodb_time('find',{'comments.comment_author': author}, 'by comment author', df_time, post_number)
+
 
 df_time.to_csv('time.csv', index=False)
 
