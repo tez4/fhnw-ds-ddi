@@ -17,7 +17,6 @@ def get_mongodb_time(type_of_query, query, query_name, df_time, num_of_posts):
         starttime = timeit.default_timer()
         cursor = blogposts.aggregate(query)
         time = timeit.default_timer() - starttime
-    # cursor = blogposts.aggregate([{'$match' : {'post_id' : 42}}])
 
     # append time measurement to dataframe
     df_time = df_time.append({
@@ -44,31 +43,35 @@ def create_df(cur):
     results = cur.fetchall()
     df_results = pd.DataFrame.from_dict(results, orient= 'columns')
     column_names = [desc[0] for desc in cur.description]
-    df_results = df_results.set_axis(column_names, axis=1)
+    try:
+        df_results = df_results.set_axis(column_names, axis=1)
+    # this means that the dataframe is empty and it can't add any columns
+    except ValueError:
+        pass
     return df_results
 
 
-def get_sql_time(query, query_params, query_name, df_time, num_of_posts):
+def get_sql_time(queries, queries_params, query_name, df_time, num_of_posts, language):
     # connect to database
     conn = psycopg2.connect(dbname='blog', host='localhost', user='postgres', password='postgres')
     cursor = conn.cursor()
 
     # create database
     starttime = timeit.default_timer()
-    cursor.execute(query, query_params)
+    for i in range(len(queries)):
+        cursor.execute(queries[i], queries_params[i])
+        df_results = create_df(cursor)
     time = timeit.default_timer() - starttime
 
     # append time measurement to dataframe
     df_time = df_time.append({
                 'posts': num_of_posts,
-                'language': 'SQL',
+                'language': language,
                 'query': query_name,
                 'time': time
             },
             ignore_index=True
         )
-
-    df_results = create_df(cursor)
 
     # close communication with the database
     cursor.close()
@@ -102,7 +105,7 @@ df_time = pd.DataFrame(columns=[
 
 kk = [100,200,400,800,1600,3200,6400,12500,25000,50000,100000]
 
-for post_number in [100,200,400,800,1600,3200]:
+for post_number in [100, 200]:
     create_database(post_number)
 
     random_post_ids = [random.randint(0,post_number) for i in range(5)]
@@ -110,7 +113,7 @@ for post_number in [100,200,400,800,1600,3200]:
     # query one blogpost
     for random_post_id in random_post_ids:
         df_results, df_time = get_sql_time(
-            """
+            ["""
             SELECT *
             FROM public.posts p
             LEFT JOIN public.comments c
@@ -118,14 +121,48 @@ for post_number in [100,200,400,800,1600,3200]:
             LEFT JOIN public.tags t
             ON (p.post_id = t.post_id)
             WHERE p.post_id = %s
-            """,
-            (random_post_id,),
+            """],
+            [(random_post_id,)],
             'one blogpost',
             df_time,
-            post_number
+            post_number,
+            'SQL with joins'
+        )
+        
+        df_results, df_time = get_sql_time(
+            [
+                """
+                SELECT *
+                FROM public.posts
+                WHERE post_id = %s
+                """,
+                """
+                SELECT *
+                FROM public.comments
+                WHERE post_id = %s
+                """,
+                """
+                SELECT *
+                FROM public.tags
+                WHERE post_id = %s
+                """
+            ],
+            [
+                (random_post_id,),
+                (random_post_id,),
+                (random_post_id,)
+            ],
+            'one blogpost',
+            df_time,
+            post_number,
+            'SQL without joins'
         )
 
         cursor, df_time = get_mongodb_time('find',{'post_id' : random_post_id}, 'one blogpost', df_time, post_number)
+
+        # ids = []
+        # for doc in cursor:
+        #     ids.append(doc['post_id'])
 
     # query all blogposts of often used tag
     df_tags = run_sql_query(
@@ -140,17 +177,18 @@ for post_number in [100,200,400,800,1600,3200]:
     for tag in [tag for tag in df_tags['tag']]:
         
         df_results, df_time = get_sql_time(
-            """
+            ["""
             SELECT *
             FROM public.tags t
             LEFT JOIN public.posts p
             ON (t.post_id = p.post_id)
             WHERE tag = %s
-            """,
-            (tag,),
+            """],
+            [(tag,)],
             'by tag',
             df_time,
-            post_number
+            post_number,
+            'SQL'
         )
 
         cursor, df_time = get_mongodb_time('find',{'tags': {'$all': [tag]}}, 'by tag', df_time, post_number)
@@ -166,18 +204,18 @@ for post_number in [100,200,400,800,1600,3200]:
         """)
     
     for author in [author for author in df_comments['comment_author']]: 
-        print(author)
 
         df_results, df_time = get_sql_time(
-            """
+            ["""
             SELECT *
             FROM public.comments c
             WHERE comment_author = %s
-            """,
-            (author,),
+            """],
+            [(author,)],
             'by comment author',
             df_time,
-            post_number
+            post_number,
+            'SQL'
         )
 
         cursor, df_time = get_mongodb_time('find',{'comments.comment_author': author}, 'by comment author', df_time, post_number)
