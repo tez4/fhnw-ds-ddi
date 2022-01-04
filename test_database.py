@@ -87,7 +87,7 @@ df_time = pd.DataFrame(columns=[
 
 kk = [100,200,400,800,1600,3200,6400,12500,25000,50000,100000]
 
-for post_number in [100,200]:
+for post_number in [100,200,400,800,1600,3200]:
     create_database(post_number)
 
     random_post_ids = [random.randint(0,post_number) for i in range(5)]
