@@ -97,6 +97,21 @@ def create_database(post_number):
             );''')
     cur.copy_from(buffer, 'public.tags', sep=",")
 
+    # create views
+    cur.execute('''
+        CREATE MATERIALIZED VIEW public.mv_one_blogpost
+        AS
+            SELECT p.post_id, p.title, p.description, p.url, p.likes, p.author, p.email, p.date,
+			c.comment_author, c.comment_author_email, c.comment_date, c.comment_text, c.comment_likes,
+			t.tag
+            FROM public.posts p
+            LEFT JOIN public.comments c
+            ON (p.post_id = c.post_id)
+            LEFT JOIN public.tags t
+            ON (p.post_id = t.post_id)
+        WITH DATA
+    ;''')
+
     # commit changes to database and close communication with the database
     conn.commit()
     cur.close()

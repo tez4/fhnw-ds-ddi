@@ -103,7 +103,7 @@ df_time = pd.DataFrame(columns=[
 
 kk = [100,200,400,800,1600,3200,6400,12500,25000,50000,100000]
 
-for post_number in [100,200,400]:
+for post_number in [200]:
     create_database(post_number)
 
     random_post_ids = [random.randint(0,post_number) for i in range(5)]
@@ -125,6 +125,19 @@ for post_number in [100,200,400]:
             df_time,
             post_number,
             'SQL with joins'
+        )
+
+        df_results, df_time = get_sql_time(
+            ["""
+            SELECT *
+            FROM public.mv_one_blogpost
+            WHERE post_id = %s
+            """],
+            [(random_post_id,)],
+            'one blogpost',
+            df_time,
+            post_number,
+            'SQL Materialized View'
         )
         
         df_results, df_time = get_sql_time(

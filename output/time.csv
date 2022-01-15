@@ -1,0 +1,41 @@
+posts,language,query,time
+200,SQL with joins,one blogpost,0.00918839999999932
+200,SQL Materialized View,one blogpost,0.006673400000000385
+200,SQL without joins,one blogpost,0.010021300000001787
+200,MongoDB,one blogpost,0.00014529999999979282
+200,SQL with joins,one blogpost,0.008305999999997482
+200,SQL Materialized View,one blogpost,0.006642400000000492
+200,SQL without joins,one blogpost,0.010071499999998679
+200,MongoDB,one blogpost,4.410000000021341e-05
+200,SQL with joins,one blogpost,0.008284799999998427
+200,SQL Materialized View,one blogpost,0.00563229999999848
+200,SQL without joins,one blogpost,0.01004520000000042
+200,MongoDB,one blogpost,6.169999999983133e-05
+200,SQL with joins,one blogpost,0.007910899999998833
+200,SQL Materialized View,one blogpost,0.006469299999999123
+200,SQL without joins,one blogpost,0.019883899999999954
+200,MongoDB,one blogpost,5.180000000137852e-05
+200,SQL with joins,one blogpost,0.007680300000000528
+200,SQL Materialized View,one blogpost,0.006180799999999209
+200,SQL without joins,one blogpost,0.009326300000001453
+200,MongoDB,one blogpost,5.190000000254713e-05
+200,SQL,by tag,0.006300299999999481
+200,MongoDB,by tag,5.1000000002687784e-05
+200,SQL,by tag,0.005774399999999957
+200,MongoDB,by tag,4.679999999979145e-05
+200,SQL,by tag,0.005432700000000068
+200,MongoDB,by tag,4.00999999996543e-05
+200,SQL,by tag,0.00557410000000047
+200,MongoDB,by tag,4.640000000222244e-05
+200,SQL,by tag,0.005157400000001644
+200,MongoDB,by tag,5.52999999996473e-05
+200,SQL,by comment author,0.004055099999998646
+200,MongoDB,by comment author,4.7500000000866294e-05
+200,SQL,by comment author,0.004496399999993628
+200,MongoDB,by comment author,4.7600000002034903e-05
+200,SQL,by comment author,0.004325600000001373
+200,MongoDB,by comment author,4.1799999998204385e-05
+200,SQL,by comment author,0.004137800000002301
+200,MongoDB,by comment author,4.110000000423497e-05
+200,SQL,by comment author,0.004490599999996903
+200,MongoDB,by comment author,4.539999999764177e-05
