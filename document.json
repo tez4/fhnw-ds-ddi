@@ -1,0 +1,30 @@
+{
+  "_id": { "$oid": "61d4a8b47e51883717060e1a" },
+  "post_id": { "$numberInt": "4" },
+  "title": "Here buy TV at anyone.",
+  "description": "East despite work perform first.",
+  "url": "http://www.clark.com/",
+  "likes": { "$numberInt": "40495" },
+  "author": "williamsjennifer",
+  "email": "rodgersheather@yahoo.com",
+  "date": { "$date": { "$numberLong": "1614290590000" } },
+  "tags": ["#Here", "#buy", "#TV", "#at", "#anyone"],
+  "comments": [
+    {
+      "comment_id": { "$numberInt": "37" },
+      "comment_author": "timothymayer",
+      "comment_author_email": "isaiah02@hotmail.com",
+      "comment_date": { "$date": { "$numberLong": "1635125256000" } },
+      "comment_text": "Into.",
+      "comment_likes": { "$numberInt": "11" }
+    },
+    {
+      "comment_id": { "$numberInt": "38" },
+      "comment_author": "fowlertodd",
+      "comment_author_email": "gholt@hotmail.com",
+      "comment_date": { "$date": { "$numberLong": "1605428573000" } },
+      "comment_text": "Be.",
+      "comment_likes": { "$numberInt": "772" }
+    }
+  ]
+}
