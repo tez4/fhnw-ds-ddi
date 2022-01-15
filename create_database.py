@@ -46,7 +46,7 @@ def create_database(post_number):
     cur.execute('''
         CREATE TABLE IF NOT EXISTS public.posts 
             (
-                post_id "numeric",
+                post_id "numeric" PRIMARY KEY,
                 title "varchar",
                 description "varchar",
                 url "varchar",
@@ -66,13 +66,16 @@ def create_database(post_number):
     cur.execute('''
         CREATE TABLE IF NOT EXISTS public.comments 
             (
-                comment_id "numeric",
+                comment_id "numeric" PRIMARY KEY,
                 post_id "numeric",
                 comment_author "varchar",
                 comment_author_email "varchar",
                 comment_date "timestamp",
                 comment_text "varchar",
-                comment_likes "numeric"
+                comment_likes "numeric",
+                CONSTRAINT fk_post
+                    FOREIGN KEY(post_id) 
+                        REFERENCES public.posts(post_id)
             );''')
     cur.copy_from(buffer, 'public.comments', sep=",")
     
@@ -85,9 +88,12 @@ def create_database(post_number):
     cur.execute('''
         CREATE TABLE IF NOT EXISTS public.tags 
             (
-                tag_id "numeric",
+                tag_id "numeric" PRIMARY KEY,
                 post_id "numeric",
-                tag "varchar"
+                tag "varchar",
+                CONSTRAINT fk_post
+                    FOREIGN KEY(post_id) 
+                        REFERENCES public.posts(post_id)
             );''')
     cur.copy_from(buffer, 'public.tags', sep=",")
 

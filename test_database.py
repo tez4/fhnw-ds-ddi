@@ -36,7 +36,6 @@ def get_mongodb_time(type_of_query, query, query_name, df_time, num_of_posts):
     #     print(doc)
     #     print("{title}: {url}".format(**doc))
 
-
 # SQL queries -----------------------------------------------------------------------------------------------------------------------
 
 def create_df(cur):
@@ -49,7 +48,6 @@ def create_df(cur):
     except ValueError:
         pass
     return df_results
-
 
 def get_sql_time(queries, queries_params, query_name, df_time, num_of_posts, language):
     # connect to database
@@ -105,7 +103,7 @@ df_time = pd.DataFrame(columns=[
 
 kk = [100,200,400,800,1600,3200,6400,12500,25000,50000,100000]
 
-for post_number in [100,200,400,800,1600,3200,6400,12500]:
+for post_number in [100,200,400,800,1600]:
     create_database(post_number)
 
     random_post_ids = [random.randint(0,post_number) for i in range(5)]
