@@ -103,7 +103,7 @@ df_time = pd.DataFrame(columns=[
 
 kk = [100,200,400,800,1600,3200,6400,12500,25000,50000,100000]
 
-for post_number in [100,200,400,800,1600]:
+for post_number in [100,200,400]:
     create_database(post_number)
 
     random_post_ids = [random.randint(0,post_number) for i in range(5)]
@@ -219,6 +219,6 @@ for post_number in [100,200,400,800,1600]:
         cursor, df_time = get_mongodb_time('find',{'comments.comment_author': author}, 'by comment author', df_time, post_number)
 
 
-df_time.to_csv('time.csv', index=False)
+df_time.to_csv('output/time.csv', index=False)
 
 print(df_time)
