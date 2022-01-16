@@ -113,9 +113,33 @@ def create_database(post_number):
     ;''')
 
     cur.execute('''
+        CREATE MATERIALIZED VIEW public.mv_tags
+        AS
+            SELECT p.post_id, p.title, p.description, p.url, p.likes, p.author, p.email, p.date,
+			t.tag
+            FROM public.tags t
+            LEFT JOIN public.posts p
+            ON (t.post_id = p.post_id)
+        WITH DATA
+    ;''')
+
+    # create indexes
+    cur.execute('''
         CREATE INDEX idx_one_blogpost
         ON public.mv_one_blogpost USING btree
         (post_id DESC NULLS LAST)
+    ;''')
+
+    cur.execute('''
+        CREATE INDEX idx_tags
+        ON public.tags
+        (tag DESC NULLS LAST)
+    ;''')
+
+    cur.execute('''
+        CREATE INDEX idx_mv_tags
+        ON public.mv_tags
+        (tag DESC NULLS LAST)
     ;''')
 
     # commit changes to database and close communication with the database

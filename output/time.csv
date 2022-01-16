@@ -1,41 +1,46 @@
 posts,language,query,time
-200,SQL with joins,one blogpost,0.00918839999999932
-200,SQL Materialized View,one blogpost,0.006673400000000385
-200,SQL without joins,one blogpost,0.010021300000001787
-200,MongoDB,one blogpost,0.00014529999999979282
-200,SQL with joins,one blogpost,0.008305999999997482
-200,SQL Materialized View,one blogpost,0.006642400000000492
-200,SQL without joins,one blogpost,0.010071499999998679
-200,MongoDB,one blogpost,4.410000000021341e-05
-200,SQL with joins,one blogpost,0.008284799999998427
-200,SQL Materialized View,one blogpost,0.00563229999999848
-200,SQL without joins,one blogpost,0.01004520000000042
-200,MongoDB,one blogpost,6.169999999983133e-05
-200,SQL with joins,one blogpost,0.007910899999998833
-200,SQL Materialized View,one blogpost,0.006469299999999123
-200,SQL without joins,one blogpost,0.019883899999999954
-200,MongoDB,one blogpost,5.180000000137852e-05
-200,SQL with joins,one blogpost,0.007680300000000528
-200,SQL Materialized View,one blogpost,0.006180799999999209
-200,SQL without joins,one blogpost,0.009326300000001453
-200,MongoDB,one blogpost,5.190000000254713e-05
-200,SQL,by tag,0.006300299999999481
-200,MongoDB,by tag,5.1000000002687784e-05
-200,SQL,by tag,0.005774399999999957
-200,MongoDB,by tag,4.679999999979145e-05
-200,SQL,by tag,0.005432700000000068
-200,MongoDB,by tag,4.00999999996543e-05
-200,SQL,by tag,0.00557410000000047
-200,MongoDB,by tag,4.640000000222244e-05
-200,SQL,by tag,0.005157400000001644
-200,MongoDB,by tag,5.52999999996473e-05
-200,SQL,by comment author,0.004055099999998646
-200,MongoDB,by comment author,4.7500000000866294e-05
-200,SQL,by comment author,0.004496399999993628
-200,MongoDB,by comment author,4.7600000002034903e-05
-200,SQL,by comment author,0.004325600000001373
-200,MongoDB,by comment author,4.1799999998204385e-05
-200,SQL,by comment author,0.004137800000002301
-200,MongoDB,by comment author,4.110000000423497e-05
-200,SQL,by comment author,0.004490599999996903
-200,MongoDB,by comment author,4.539999999764177e-05
+200,SQL with joins,one blogpost,0.013207800000003544
+200,SQL Materialized View,one blogpost,0.005416199999999094
+200,SQL without joins,one blogpost,0.009889700000002222
+200,MongoDB,one blogpost,0.00015379999999964866
+200,SQL with joins,one blogpost,0.008204700000000287
+200,SQL Materialized View,one blogpost,0.005992100000000278
+200,SQL without joins,one blogpost,0.010075200000002837
+200,MongoDB,one blogpost,4.710000000329728e-05
+200,SQL with joins,one blogpost,0.008228600000002473
+200,SQL Materialized View,one blogpost,0.005696100000001536
+200,SQL without joins,one blogpost,0.00976789999999994
+200,MongoDB,one blogpost,4.8599999999510146e-05
+200,SQL with joins,one blogpost,0.008434000000001163
+200,SQL Materialized View,one blogpost,0.005650600000002726
+200,SQL without joins,one blogpost,0.010275500000005877
+200,MongoDB,one blogpost,4.40999999966607e-05
+200,SQL with joins,one blogpost,0.008413799999999583
+200,SQL Materialized View,one blogpost,0.005420499999999606
+200,SQL without joins,one blogpost,0.010021000000001834
+200,MongoDB,one blogpost,5.170000000020991e-05
+200,SQL,by tag,0.006470000000000198
+200,SQL Materialized View,by tag,0.004268899999999576
+200,MongoDB,by tag,4.80999999936671e-05
+200,SQL,by tag,0.006797900000002244
+200,SQL Materialized View,by tag,0.005386800000003689
+200,MongoDB,by tag,4.2900000003953664e-05
+200,SQL,by tag,0.005747899999995809
+200,SQL Materialized View,by tag,0.004961700000002622
+200,MongoDB,by tag,4.8499999998341536e-05
+200,SQL,by tag,0.006157899999998051
+200,SQL Materialized View,by tag,0.0046668000000025245
+200,MongoDB,by tag,4.8499999998341536e-05
+200,SQL,by tag,0.005911599999997463
+200,SQL Materialized View,by tag,0.005542699999999456
+200,MongoDB,by tag,4.1899999999372994e-05
+200,SQL,by comment author,0.004454800000004866
+200,MongoDB,by comment author,8.60999999972023e-05
+200,SQL,by comment author,0.004572600000003035
+200,MongoDB,by comment author,4.529999999647316e-05
+200,SQL,by comment author,0.004256400000002714
+200,MongoDB,by comment author,7.480000000015252e-05
+200,SQL,by comment author,0.004601200000003303
+200,MongoDB,by comment author,5.550000000198452e-05
+200,SQL,by comment author,0.004278500000005181
+200,MongoDB,by comment author,6.760000000127775e-05

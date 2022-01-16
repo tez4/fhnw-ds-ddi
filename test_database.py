@@ -202,6 +202,19 @@ for post_number in [200]:
             'SQL'
         )
 
+        df_results, df_time = get_sql_time(
+            ["""
+            SELECT *
+            FROM public.mv_tags
+            WHERE tag = %s
+            """],
+            [(tag,)],
+            'by tag',
+            df_time,
+            post_number,
+            'SQL Materialized View'
+        )
+
         cursor, df_time = get_mongodb_time('find',{'tags': {'$all': [tag]}}, 'by tag', df_time, post_number)
     
     # query all comments of a certain user
