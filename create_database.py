@@ -112,6 +112,12 @@ def create_database(post_number):
         WITH DATA
     ;''')
 
+    cur.execute('''
+        CREATE INDEX idx_one_blogpost
+        ON public.mv_one_blogpost USING btree
+        (post_id DESC NULLS LAST)
+    ;''')
+
     # commit changes to database and close communication with the database
     conn.commit()
     cur.close()
