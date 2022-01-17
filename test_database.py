@@ -12,10 +12,7 @@ def get_mongodb_time(type_of_query, query, query_name, df_time, num_of_posts):
     if type_of_query == 'find':
         starttime = timeit.default_timer()
         cursor = blogposts.find(query)
-        time = timeit.default_timer() - starttime
-    elif type_of_query == 'aggregate':
-        starttime = timeit.default_timer()
-        cursor = blogposts.aggregate(query)
+        results = list(cursor)
         time = timeit.default_timer() - starttime
 
     # append time measurement to dataframe
@@ -28,7 +25,7 @@ def get_mongodb_time(type_of_query, query, query_name, df_time, num_of_posts):
             ignore_index=True
         )
 
-    return (cursor, df_time)
+    return (results, df_time)
 
     # print(cursor)
 
@@ -58,9 +55,10 @@ def get_sql_time(queries, queries_params, query_name, df_time, num_of_posts, lan
     for i in range(len(queries)):
         starttime = timeit.default_timer()
         cursor.execute(queries[i], queries_params[i])
+        results = cursor.fetchall()
         time = timeit.default_timer() - starttime
         
-        df_results = create_df(cursor)
+        # df_results = create_df(cursor)
 
         # append time measurement to dataframe
         df_time = df_time.append({
@@ -76,7 +74,7 @@ def get_sql_time(queries, queries_params, query_name, df_time, num_of_posts, lan
     cursor.close()
     conn.close()
 
-    return (df_results, df_time)
+    return (results, df_time)
 
 def run_sql_query(query):
     # connect to database
@@ -260,6 +258,6 @@ for post_number in [100,200,400,800,1600,3200,6400]:
             cursor, df_time = get_mongodb_time('find',{'comments.comment_author': author}, 'by comment author', df_time, post_number)
 
 
-df_time.to_csv('output/time.csv', index=False)
+df_time.to_csv('output/time_df.csv', index=False)
 
 print(df_time)
