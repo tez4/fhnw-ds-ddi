@@ -123,6 +123,14 @@ def create_database(post_number):
         WITH DATA
     ;''')
 
+    cur.execute('''
+        CREATE MATERIALIZED VIEW public.mv_comments
+        AS
+            SELECT *
+            FROM public.comments
+        WITH DATA
+    ;''')
+
     # create indexes
     cur.execute('''
         CREATE INDEX idx_one_blogpost
@@ -140,6 +148,12 @@ def create_database(post_number):
         CREATE INDEX idx_mv_tags
         ON public.mv_tags
         (tag DESC NULLS LAST)
+    ;''')
+
+    cur.execute('''
+        CREATE INDEX idx_mv_comments
+        ON public.mv_comments
+        (comment_author DESC NULLS LAST)
     ;''')
 
     # commit changes to database and close communication with the database
